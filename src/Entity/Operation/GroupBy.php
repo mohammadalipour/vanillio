@@ -7,9 +7,9 @@ use App\Entity\Operation\Aggregation\AbstractItemAggregation;
 
 class GroupBy extends AbstractOperation
 {
-    private array $aggregation;
+    private array|null $aggregation;
 
-    public function __construct( array $value, ?array $aggregation)
+    public function __construct(array $value, ?array $aggregation = null)
     {
         parent::__construct($value);
         $this->aggregation = $aggregation;
@@ -24,8 +24,11 @@ class GroupBy extends AbstractOperation
         foreach ($this->value as $value => $closure) {
             if (is_callable($closure)) {
                 $expected = call_user_func($closure, $items);
+            } else {
+                $value = $closure;
             }
-            $diffItems = array_diff_key($items,$expected);
+
+            $diffItems = array_diff_key($items, $expected);
 
             $finalItems = [];
 
@@ -40,7 +43,7 @@ class GroupBy extends AbstractOperation
                     $finalResults[] = reset($finalItem);
                 }
             } else {
-                $finalResults = $this->executeAggregations($this->aggregation,$finalItems, $value);
+                $finalResults = $this->executeAggregations($this->aggregation, $finalItems, $value);
             }
         }
 
@@ -53,9 +56,9 @@ class GroupBy extends AbstractOperation
      * @param mixed $value
      * @return array
      */
-    private function executeAggregations(array $aggregations ,array $finalItems, mixed $value): array
+    private function executeAggregations(array $aggregations, array $finalItems, mixed $value): array
     {
-        $finalResults= [];
+        $finalResults = [];
 
         foreach ($aggregations as $aggregationKey => $aggregation) {
             $aggregationClass = new $aggregation($finalItems, $aggregationKey);
