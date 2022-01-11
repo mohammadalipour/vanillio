@@ -1,48 +1,50 @@
 <?php
 
-namespace App\Helpers\Silver\Item\Operation;
+namespace App\Entity\Operation;
 
 
-use App\Helpers\Silver\Item\Operation\Aggregation\AbstractItemAggregation;
+use App\Entity\Operation\Aggregation\AbstractItemAggregation;
 
 class GroupBy extends AbstractOperation
 {
-    private $closure;
     private array $aggregation;
 
-    public function __construct(array $item, array $value, ?array $aggregation, ?callable $closure)
+    public function __construct( array $value, ?array $aggregation)
     {
-        parent::__construct($item, $value);
-        $this->closure = $closure;
+        parent::__construct($value);
         $this->aggregation = $aggregation;
     }
 
-    public function handle(): array
+    public function handle(array $items): array
     {
-        if (is_callable($this->closure)) {
-            $func = call_user_func($this->closure, $this->item);
-        }
-
-        $items = $func['item'];
+        $expected = [];
         $finalResults = [];
 
-        foreach ($this->value as $value) {
+
+        foreach ($this->value as $value => $closure) {
+            if (is_callable($closure)) {
+                $expected = call_user_func($closure, $items);
+            }
+            $diffItems = array_diff_key($items,$expected);
+
             $finalItems = [];
 
-            foreach ($items as $item) {
+            foreach ($diffItems as $item) {
                 $finalItems[$item[$value]][] = $item;
             }
 
+
             if (!$this->aggregation) {
                 foreach ($finalItems as $finalItem) {
-                    $finalResults = $finalItem[0];
+                    $finalItem = array_values($finalItem);
+                    $finalResults[] = reset($finalItem);
                 }
             } else {
                 $finalResults = $this->executeAggregations($this->aggregation,$finalItems, $value);
             }
         }
 
-        return array_merge($finalResults, $func['expected']);
+        return array_merge($finalResults, $expected);
     }
 
     /**
@@ -56,14 +58,13 @@ class GroupBy extends AbstractOperation
         $finalResults= [];
 
         foreach ($aggregations as $aggregationKey => $aggregation) {
-            $aggregationClass = new $aggregationKey($finalItems, $aggregation);
+            $aggregationClass = new $aggregation($finalItems, $aggregationKey);
             /** @var AbstractItemAggregation $aggregationClass */
             $results = $aggregationClass->execute();
 
             foreach ($results as $resultKey => $result) {
-                $finalResults[$resultKey][$aggregation] = $result[$aggregation];
+                $finalResults[$resultKey][$aggregationKey] = $result[$aggregationKey];
                 $finalResults[$resultKey][$value] = $finalItems[$resultKey][0][$value];
-
             }
         }
 

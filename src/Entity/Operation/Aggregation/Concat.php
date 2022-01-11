@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\Silver\Item\Operation\Aggregation;
+namespace App\Entity\Operation\Aggregation;
 
 class Concat extends AbstractItemAggregation
 {
