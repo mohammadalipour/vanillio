@@ -1,23 +1,29 @@
 <?php
 
-/**
- * Autoload Classes
- */
-require '../vendor/autoload.php';
+use App\Config\App;
+use App\Config\Config;
+use App\Config\Container;
+use App\Config\Router;
 
-/**
- * Require routes file
- */
-require 'routes.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-/**
- * Require configuration file
- */
-require 'config.php';
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 
-/**
- * Handle routes from Route helper class
- */
-use App\Helpers\Route;
+$container = new Container();
+$router = new Router($container);
+$config = new Config($_ENV);
 
-Route::handle($_SERVER['PHP_SELF']);
+require_once __DIR__ . '/../routes/route.php';
+
+$app = new App(
+    $container,
+    $router,
+    [
+        'uri' => $_SERVER['REQUEST_URI'],
+        'method' => $_SERVER['REQUEST_METHOD']
+    ],
+    $config
+);
+
+$app->run();

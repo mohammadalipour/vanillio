@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Helpers\Silver\Item\Operation\Aggregation;
+namespace App\Entity\Operation\Aggregation;
 
 class Sum extends AbstractItemAggregation
 {
-
     public function execute()
     {
         $result = [];
