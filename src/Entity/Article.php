@@ -4,7 +4,6 @@ namespace App\Entity;
 
 class Article extends Entity
 {
-
     public function findAll()
     {
         $this->items= [
