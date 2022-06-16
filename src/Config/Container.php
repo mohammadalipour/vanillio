@@ -3,7 +3,6 @@
 namespace App\Config;
 
 use App\Exception\NotFoundException;
-use MongoDB\Driver\Exception\ConnectionException;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -52,7 +51,7 @@ class Container implements ContainerInterface
         }
 
         if (!$reflection->isInstantiable()) {
-            throw new ConnectionException("Class $id dose not instantiable");
+            throw new NotFoundException("Class $id dose not instantiable");
         }
 
         if (!$constructor = $reflection->getConstructor()) {
@@ -72,18 +71,19 @@ class Container implements ContainerInterface
      * @param array $parameters
      * @param string $id
      * @return array
+     * @throws NotFoundException
      */
     private function makeDependencies(array $parameters, string $id): array
     {
         return array_map(function (ReflectionParameter $parameter) use ($id) {
             if (!$type = $parameter->getType()) {
-                throw new ConnectionException("Failed to resolve class $id");
+                throw new NotFoundException("Failed to resolve class $id");
             } elseif ($type instanceof ReflectionUnionType) {
-                throw new ConnectionException("Failed to resolve class $id because of union type");
+                throw new NotFoundException("Failed to resolve class $id because of union type");
             } elseif ($type instanceof ReflectionNamedType && !$type->isBuiltin()) {
                 return $this->get($type->getName());
             } else {
-                throw new ConnectionException("Failed to resolve class $id, because param dose not valid");
+                throw new NotFoundException("Failed to resolve class $id, because param dose not valid");
             }
         }, $parameters);
     }

@@ -1,5 +1,4 @@
 <?php
-
 use App\Config\App;
 use App\Config\Config;
 use App\Config\Container;

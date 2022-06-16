@@ -3,6 +3,7 @@
 namespace App\Config;
 
 use App\Exception\RouteNotFoundException;
+use Symfony\Component\HttpFoundation\Request;
 
 class Router
 {
@@ -65,6 +66,8 @@ class Router
             throw new RouteNotFoundException();
         }
 
+        $request = Request::createFromGlobals();
+
         if (is_callable($action)) {
             return call_user_func($action);
         }
@@ -73,7 +76,7 @@ class Router
         if (class_exists($class)) {
             $class = $this->container->get($class);
             if (method_exists($class,$method)) {
-                return call_user_func_array([$class,$method], []);
+                return call_user_func_array([$class,$method], [$request]);
             }
         }
 
