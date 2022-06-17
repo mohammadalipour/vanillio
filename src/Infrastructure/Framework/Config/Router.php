@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Config;
+namespace App\Infrastructure\Framework\Config;
 
 use App\Exception\RouteNotFoundException;
 use Symfony\Component\HttpFoundation\Request;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Config;
+namespace App\Infrastructure\Framework\Config;
 
 use App\Exception\NotFoundException;
 use Psr\Container\ContainerInterface;
