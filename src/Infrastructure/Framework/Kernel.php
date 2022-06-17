@@ -2,9 +2,9 @@
 
 namespace App\Infrastructure\Framework;
 
-use App\Infrastructure\Framework\Config\App;
-use App\Infrastructure\Framework\Config\Config;
-use App\Infrastructure\Framework\Config\Router;
+use App\Infrastructure\Framework\Bootstrap\App;
+use App\Infrastructure\Framework\Bootstrap\Config;
+use App\Infrastructure\Framework\Bootstrap\Router;
 use Psr\Container\ContainerInterface;
 
 final class Kernel

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Framework\Config;
+namespace App\Infrastructure\Framework\Bootstrap;
 
 use App\Exception\NotFoundException;
 use Psr\Container\ContainerInterface;
