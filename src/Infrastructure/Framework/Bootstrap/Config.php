@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Framework\Bootstrap;
 
 use App\Infrastructure\Framework\Configuration\ApplicationEnvironmentConfigurationInterface;
-use Dotenv\Dotenv;
 
 class Config
 {

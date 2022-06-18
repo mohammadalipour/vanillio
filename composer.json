@@ -14,7 +14,14 @@
     "psr/container": "^2.0",
     "symfony/http-foundation": "^6.1",
     "filp/whoops": "^2.14",
-    "twig/twig": "^3.0"
+    "twig/twig": "^3.0",
+    "doctrine/orm": "^2.11.0",
+    "doctrine/dbal": "^3.2",
+    "doctrine/annotations": "1.13.2",
+    "symfony/yaml": "^5.4",
+    "symfony/cache": "^5.4",
+    "illuminate/database": "^9.17"
+
   },
   "autoload": {
     "psr-4": {

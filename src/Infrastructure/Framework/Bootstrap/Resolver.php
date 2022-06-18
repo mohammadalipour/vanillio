@@ -4,13 +4,12 @@ namespace App\Infrastructure\Framework\Bootstrap;
 
 use App\Exception\RouteNotFoundException;
 
-class App
+class Resolver
 {
     public function __construct(
         protected Container $container,
         protected Router $router,
         protected array $request,
-        protected Config $config
     )
     {
     }
