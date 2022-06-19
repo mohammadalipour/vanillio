@@ -1,8 +1,8 @@
 version: '3.8'
 services:
   #application
-  silver_app:
-    container_name: silver_app
+  vanillio_app:
+    container_name: app
     build:
       context: ./dockerFiles/php/
     ports:
@@ -10,11 +10,26 @@ services:
     volumes:
       - ./:/var/www/app
     networks:
-      - silver
+      - vanillio
+
+  #database
+  database:
+    container_name: database
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: 123qwe
+      MYSQL_DATABASE: db
+    ports:
+      - '4306:3306'
+    networks:
+      - vanillio
+    volumes:
+      - ./dockerFiles/mysql/dbData:/var/lib/mysql
 
   #webserver
-  silver_nginx:
-    container_name: silver_nginx
+  vanillio_nginx:
+    container_name: nginx
     image: nginx:stable-alpine
     ports:
       - '8001:80'
@@ -22,8 +37,8 @@ services:
       - ./:/var/www/app
       - ./dockerFiles/nginx/default.conf:/etc/nginx/conf.d/default.conf
     networks:
-      - silver
+      - vanillio
     depends_on:
-      - silver_app
+      - vanillio_app
 networks:
-  silver:
+  vanillio:

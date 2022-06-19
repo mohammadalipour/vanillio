@@ -2,3 +2,4 @@
 .idea
 .env
 /cache/
+/dockerFiles/mysql/dbData/
