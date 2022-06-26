@@ -1,6 +1,6 @@
 ![N|Solid](https://www.brandbucket.com/sites/default/files/logo_uploads/41991/large_vanillio-01.png)
 # Vanilio
-#### The Vanilio framework for PHP applications offers a clean architecture, easy customization capability, and an independent Application core.
+#### The Vanilio framework for PHP applications offers a clean architecture, easy customization capability, and an independent Application/Core.
 
 #### Requirements
 <ul>  

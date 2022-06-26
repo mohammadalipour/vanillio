@@ -20,7 +20,9 @@
     "doctrine/annotations": "1.13.2",
     "symfony/yaml": "^5.4",
     "symfony/cache": "^5.4",
-    "illuminate/database": "^9.17"
+    "symfony/routing": "^6.1",
+    "symfony/http-kernel": "^6.1",
+    "symfony/dependency-injection": "^6.1"
 
   },
   "autoload": {

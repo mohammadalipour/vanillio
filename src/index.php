@@ -1,9 +1,12 @@
 <?php
-
-use App\Infrastructure\Framework\Bootstrap\Application;
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$application = new Application();
-$application->handle();
+use Symfony\Component\HttpFoundation\Request;
 
+$routes = require_once __DIR__ . '/../routes/route.php';
+$container = require_once __DIR__ . '/Infrastructure/Framework/container.php';
+
+$request = Request::createFromGlobals();
+$response = $container->get('kernel')->handle($request);
+
+$response->send();
