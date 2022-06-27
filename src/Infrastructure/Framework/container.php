@@ -33,8 +33,8 @@ $containerBuilder->register('dispatcher', EventDispatcher\EventDispatcher::class
 $containerBuilder->register('kernel', Kernel::class)
     ->setArguments([
         new Reference('dispatcher'),
-        new Reference('matcher'),
         new Reference('controller_resolver'),
+        new Reference('request_stack'),
         new Reference('argument_resolver'),
     ]);
 
